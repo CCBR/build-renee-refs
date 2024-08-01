@@ -8,7 +8,6 @@ if not NCBI_API_KEY:
 
 configfile: 'config.yml'
 
-pprint(config)
 
 def list_genome_outputs():
     return [f'{genome}_{gver}/config/build.yml' for genome in config['genomes'] for gver in config['genomes'][genome]]
@@ -88,6 +87,17 @@ rule concat_sequences_hg19:
         cat {input} > {output.fasta}
         """
 
+rule download_gdc_hg38_fasta:
+    output:
+        fasta='downloads/GRCh38.d1.vd1.fa'
+    shell:
+        """
+        wget https://api.gdc.cancer.gov/data/254f697d-310d-4d7d-a27b-27fbf767a834 \
+            && \
+            tar -C downloads/ -xzvf GRCh38.d1.vd1.fa.tar.gz && \
+            rm GRCh38.d1.vd1.fa.tar.gz
+        """
+
 rule renee_build_hg19:
     input:
         fasta=rules.concat_sequences_hg19.output.fasta,
@@ -109,7 +119,7 @@ rule renee_build_hg19:
 
 rule renee_build_hg38:
     input:
-        fasta='/data/CCBR_Pipeliner/db/PipeDB/GDC_refs/downloads/GRCh38.d1.vd1.fa',
+        fasta=rules.download_gdc_hg38_fasta.output.fasta,
         gtf='/data/CCBR_Pipeliner/db/PipeDB/Indices/GTFs/hg38/gencode.v{gver}.primary_assembly.annotation.gtf'
     output:
         yml='hg38_{gver}/config/build.yml'
