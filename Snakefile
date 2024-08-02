@@ -92,7 +92,7 @@ rule download_gdc_hg38_fasta:
         fasta='downloads/GRCh38.d1.vd1.fa'
     shell:
         """
-        wget https://api.gdc.cancer.gov/data/254f697d-310d-4d7d-a27b-27fbf767a834 \
+        wget -O GRCh38.d1.vd1.fa.tar.gz https://api.gdc.cancer.gov/data/254f697d-310d-4d7d-a27b-27fbf767a834 \
             && \
             tar -C downloads/ -xzvf GRCh38.d1.vd1.fa.tar.gz && \
             rm GRCh38.d1.vd1.fa.tar.gz
@@ -108,7 +108,8 @@ rule renee_build_hg19:
         outdir='/data/CCBR_Pipeliner/db/PipeDB/GDC_refs/hg19_{gver}'
     shell:
         """
-        renee build \
+        renee=/data/CCBR_Pipeliner/Pipelines/RENEE/renee-dev-sovacool/src/renee/__main__.py
+        $renee build \
             --sif-cache /data/CCBR_Pipeliner/SIFS \
             --ref-fa {input.fasta} \
             --ref-name hg19 \
@@ -127,7 +128,8 @@ rule renee_build_hg38:
         outdir='/data/CCBR_Pipeliner/db/PipeDB/GDC_refs/hg38_{gver}/'
     shell:
         """
-        renee build \
+        renee=/data/CCBR_Pipeliner/Pipelines/RENEE/renee-dev-sovacool/src/renee/__main__.py
+        $renee build \
             --sif-cache /data/CCBR_Pipeliner/SIFS \
             --ref-fa {input.fasta} \
             --ref-name hg38 \
