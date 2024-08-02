@@ -11,7 +11,7 @@ configfile: 'config.yml'
 
 def list_genome_outputs():
     return [f'{genome}_{gver}/config/build.yml' for genome in config['genomes'] for gver in config['genomes'][genome]]
-    
+
 
 rule all:
     input:
@@ -46,9 +46,9 @@ Manual: https://www.ncbi.nlm.nih.gov/books/NBK25500/#chapter1.Downloading_Full_R
 rule download_virus_decoy_fasta:
     output:
         fasta='downloads/decoys/{genbank_id}.fna'
-    params: 
+    params:
         query=f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={{genbank_id}}&rettype=fasta&retmode=text&api_key={NCBI_API_KEY}'
-    shell: 
+    shell:
         """
         sleep 1
         wget -O {output.fasta} "{params.query}"
