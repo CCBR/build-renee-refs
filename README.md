@@ -4,11 +4,13 @@
 
 This repo is on biowulf at `/data/CCBR_Pipeliner/db/PipeDB/GDC_refs`
 
-The snakemake workflow will
-download references from Entrez and
+The snakemake workflow downloads references from Encode, Entrez, and
 [GDC](https://gdc.cancer.gov/about-data/gdc-data-processing/gdc-reference-files),
-add viruses and decoys to the hg19 fasta,
-and execute `renee build` for the hg38 and hg19 genome versions specified in the config file.
+adds viruses and decoys to the hg19 fasta,
+and executes `renee build` for the hg38 and hg19 genome versions specified in the config file.
+
+> The hg38 fasta files were downloaded from the GDC with virus and decoy sequences already added,
+> while we added these sequences to the hg19 fasta from Encode using this snakemake workflow.
 
 ```sh
 module load snakemake/7
