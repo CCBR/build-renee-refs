@@ -2,9 +2,11 @@ from collections import defaultdict
 import os
 from pprint import pprint
 
-NCBI_API_KEY=os.environ['NCBI_API_KEY']
+NCBI_API_KEY=os.environ.get('NCBI_API_KEY', None)
 if not NCBI_API_KEY:
-    raise ValueError("NCBI_API_KEY environment variable is not set")
+    raise ValueError("NCBI_API_KEY environment variable is not set.\n"
+    "\tPlease obtain an API Key for your NCBI account and set it to the environment variable NCBI_API_KEY.\n"
+    "\thttps://support.nlm.nih.gov/knowledgebase/article/KA-05317/en-us")
 
 configfile: 'config.yml'
 
