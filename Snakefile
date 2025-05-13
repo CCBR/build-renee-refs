@@ -130,6 +130,7 @@ rule renee_build_hg38:
         outdir='/data/CCBR_Pipeliner/db/PipeDB/GDC_refs/hg38_{gver}/'
     shell:
         """
+        module load ccbrpipeliner
         renee=/data/CCBR_Pipeliner/Pipelines/RENEE/v2.6/bin/renee
         $renee build \
             --sif-cache /data/CCBR_Pipeliner/SIFS \
